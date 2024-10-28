@@ -41,12 +41,18 @@ Plug 'pacha/vem-tabline'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'luochen1990/rainbow'
 Plug 'voldikss/vim-floaterm'
+Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'liuchengxu/vim-which-key'
+Plug 'dominikduda/vim_current_word'
 Plug 'vim-airline/vim-airline-themes'
 " Coding
 Plug 'SidOfc/mkdx'
 Plug 'preservim/vim-markdown'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 call plug#end()
 
@@ -65,22 +71,19 @@ let g:airline_theme  = 'gotham'
 " let g:airline_theme  = 'distinguished'
 
 " Plugin's commands ------------------------------------------------------------
-" ff : Search files with fzf
-" fr : Search strings with fzf:ripgrep
-" fm : Search files in MRU
-" <C-t> : Toggle Floaterm
-" StripWhitespace : Delete all trailing spaces
-" TableFormat : Format markdown table under the cursor
-" :Toc : Create vertical TOC for markdown
-" :Toc : Create horizontal TOC for markdown
 nnoremap <silent> ff :Files<CR>
 nnoremap <silent> fg :GFiles<CR>
 nnoremap <silent> fr :RG<CR>
 nnoremap <silent> fm :FZFMru<CR>
 nnoremap <silent> <C-t> :FloatermToggle<CR>
 tnoremap <silent> <C-t> <C-\><C-n>:FloatermToggle<CR>
-let mapleader = "\<Space>"
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+nnoremap <silent> gd :LspDefinition<CR>
+nnoremap <silent> gr :LspRename<CR>
+nnoremap <silent> gh :LspHover<CR>
+nnoremap <silent> gj :LspNextDiagnostic<CR>
+nnoremap <silent> gk :LspPreviousDiagnostic<CR>
+nnoremap <silent> gf :LspDocumentFormat<CR>
 
 " liuchengxu/vim-which-key -----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
@@ -88,6 +91,7 @@ let g:which_key_map = {}
 let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
       \ 's' : [':StripWhitespace', 'StripWhitespace: Delete all trailing spaces'],
+      \ 'd' : [':GitGutterDiffOrig', 'GitGutterDiffOrig: Show git dif'],
       \ }
 let g:which_key_map['f'] = {
       \ 'name' : '+fzf' ,
@@ -96,6 +100,15 @@ let g:which_key_map['f'] = {
       \ 'g' : [':GFiles', 'GFiles: Search Files in the Git repo'],
       \ 'r' : [':RG', 'RG: Search Strings in the CD'],
       \ 'c' : [':Colors', 'Colors: Search installed colorschemes'],
+      \ }
+let g:which_key_map['g'] = {
+      \ 'name' : '+lsp' ,
+      \ 'd' : [':LspDefinition', 'LspDefinition: Go to the definition of the word'],
+      \ 'r' : [':LspRename', 'LspRename: Rename symbol'],
+      \ 'h' : [':LspHover', 'LspHover: Show hover information'],
+      \ 'j' : [':LspNextDiagnostic', 'LspNextDiagnostic: Jump to next diagnostics'],
+      \ 'k' : [':LspPreviousDiagnostic', 'LspPreviousDiagnostic: Jump to previous diagnostics'],
+      \ 'f' : [':LspDocumentFormat', 'LspDocumentFormat: Format the document'],
       \ }
 let g:which_key_map['m'] = {
       \ 'name' : '+Markdown' ,
@@ -125,6 +138,22 @@ let g:which_key_map['z'] = {
       \ }
 call which_key#register('<Space>', "g:which_key_map")
 
+" prabirshrestha/vim-lsp -------------------------------------------------------
+let g:lsp_fold_enabled = 0
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_signs_enabled = 1
+let g:lsp_diagnostics_virtual_text_enabled = 0
+
+" dominikduda/vim_current_word -------------------------------------------------
+let g:vim_current_word#highlight_current_word = 0
+let g:vim_current_word#highlight_delay = 500
+let g:vim_current_word#excluded_filetypes = ['markdown']
+
+" prabirshrestha/asyncomplete.vim ----------------------------------------------
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
 " obcat/vim-sclow --------------------------------------------------------------
 set updatetime=100
 let g:sclow_block_buftypes = ['terminal', 'prompt']
@@ -148,7 +177,7 @@ augroup vimrc_floaterm
 augroup END
 
 " fzf.vim  ---------------------------------------------------------------------
-" Modified Rg command to direct path
+" Modified RG command to direct path
 function! FZGrep(query, fullscreen)
   let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
@@ -157,6 +186,14 @@ function! FZGrep(query, fullscreen)
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 command! -nargs=* -bang RG call FZGrep(<q-args>, <bang>0)
+
+" Modified RG command to direct pattern and path
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   "rg --column --line-number --no-heading --color=always --smart-case " .
+  \   <q-args>, 1, {'dir': system('git -C '.expand('%:p:h').
+  \   ' rev-parse --show-toplevel 2> /dev/null')[:-2]}, <bang>0)
+
 " Modified FZFMru command to show preview
 command! -bang -nargs=? FZFMru call fzf_mru#actions#mru(<q-args>,
     \{
@@ -332,6 +369,9 @@ nnoremap <silent> zH zM  " Collapse all fold in the page
 nnoremap <silent> zl zr  " Open one fold in the page
 nnoremap <silent> zL zR  " Open all fold in the page
 
+" Search selected words
+vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
+
 " Toggle netrw
 noremap <silent><C-o> :call ToggleNetrw()<CR>
 
@@ -381,6 +421,9 @@ set display=lastline
 
 " Display line numbers.
 set number
+
+" Display fold column.
+set foldcolumn=1
 
 " Hilight pairs brackets.
 set showmatch
