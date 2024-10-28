@@ -53,6 +53,7 @@ alias findp='pa find'
 alias rmp='pa rm'
 alias cpp='pa cp'
 alias mvp='pa mv'
+alias sp='searchsploit'
 bindkey "^K" fzf-history-selection
 bindkey "^U" fzf-cdr
 
