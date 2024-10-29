@@ -109,6 +109,9 @@ let g:which_key_map['g'] = {
       \ 'j' : [':LspNextDiagnostic', 'LspNextDiagnostic: Jump to next diagnostics'],
       \ 'k' : [':LspPreviousDiagnostic', 'LspPreviousDiagnostic: Jump to previous diagnostics'],
       \ 'f' : [':LspDocumentFormat', 'LspDocumentFormat: Format the document'],
+      \ 'i' : [':LspInstallServer', 'LspInstallServer: Install Language Server'],
+      \ 'u' : [':LspUninstallServer', 'LspUninstallServer: Unstall Language Server'],
+      \ 'm' : [':LspManageServers', 'LspManageServers: Manage Language Servers'],
       \ }
 let g:which_key_map['m'] = {
       \ 'name' : '+Markdown' ,
@@ -139,10 +142,25 @@ let g:which_key_map['z'] = {
 call which_key#register('<Space>', "g:which_key_map")
 
 " prabirshrestha/vim-lsp -------------------------------------------------------
-let g:lsp_fold_enabled = 0
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_diagnostics_signs_enabled = 1
-let g:lsp_diagnostics_virtual_text_enabled = 0
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nnoremap <buffer> <expr><c-j> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-k> lsp#scroll(-4)
+    inoremap <buffer> <expr><c-j> lsp#scroll(+4)
+    inoremap <buffer> <expr><c-k> lsp#scroll(-4)
+    let g:lsp_fold_enabled = 0
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:lsp_diagnostics_signs_enabled = 1
+    let g:lsp_diagnostics_virtual_text_enabled = 0
+    let g:lsp_diagnostics_highlights_enabled = 0
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 " dominikduda/vim_current_word -------------------------------------------------
 let g:vim_current_word#highlight_current_word = 0
@@ -395,7 +413,7 @@ set shiftwidth=2             " Set number of tabs (inline).
 " ------------------------------------------------------------------------------
 " Search settings
 " ------------------------------------------------------------------------------
-set ignorecase  " Ignore case sensitivity when search strings is lower case.
+set smartcase  " Ignore case sensitivity when search strings is lower case.
 set incsearch   " Enable live search.
 set wrapscan    " Go file head when search is arrive at EOF
 set hlsearch    " Hilight search strings.
@@ -447,4 +465,3 @@ if has('vim_starting')
     " Use blink line cursol on replace mode.
     let &t_SR .= "\e[4 q"
 endif
-
