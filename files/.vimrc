@@ -30,7 +30,8 @@ Plug 'catppuccin/vim', {'as': 'catppuccin'}
 Plug 'obcat/vim-hitspop'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'LunarWatcher/auto-pairs'
+Plug 'gosukiwi/vim-smartpairs'
+Plug 'dominikduda/vim_current_word'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ConradIrwin/vim-bracketed-paste'
 " User Interface
@@ -44,7 +45,7 @@ Plug 'voldikss/vim-floaterm'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'liuchengxu/vim-which-key'
-Plug 'dominikduda/vim_current_word'
+Plug 'whatyouhide/vim-lengthmatters'
 Plug 'vim-airline/vim-airline-themes'
 " Coding
 Plug 'SidOfc/mkdx'
@@ -77,6 +78,7 @@ nnoremap <silent> fr :RG<CR>
 nnoremap <silent> fm :FZFMru<CR>
 nnoremap <silent> <C-t> :FloatermToggle<CR>
 tnoremap <silent> <C-t> <C-\><C-n>:FloatermToggle<CR>
+let mapleader = "\<Space>"
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> gd :LspDefinition<CR>
 nnoremap <silent> gr :LspRename<CR>
@@ -161,6 +163,11 @@ augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+" whatyouhide/vim-lengthmatters ------------------------------------------------
+let g:lengthmatters_use_textwidth = 0
+let g:lengthmatters_start_at_column = 81
+let g:lengthmatters_highlight_one_column = 1
 
 " dominikduda/vim_current_word -------------------------------------------------
 let g:vim_current_word#highlight_current_word = 0
@@ -307,9 +314,6 @@ augroup END
 " ------------------------------------------------------------------------------
 " Custom Keybinds
 " ------------------------------------------------------------------------------
-" Set Leader key
-let mapleader = "\<space>"
-
 " Enable jj key for exit insert mode.
 inoremap <silent> jj <ESC>
 vnoremap <silent> nn <ESC>
@@ -429,6 +433,13 @@ set cursorline                         " Hilight current line.
 set nowrap                             " Disable line wrap.
 syntax enable                          " Enable syntax hilight.
 
+" Transparent background
+hi Normal guibg=NONE
+hi LineNr guibg=NONE
+hi VertSplit guibg=NONE
+hi Special guibg=NONE
+hi Identifier guibg=NONE
+
 " Status & command line
 set showcmd
 set cmdheight=1
@@ -453,7 +464,7 @@ set conceallevel=0
 let g:vim_json_syntax_conceal = 0
 
 " Display column limit '80'
-execute "set colorcolumn=" . join(range(81, 9999), ',')
+" execute "set colorcolumn=" . join(range(81, 82), ',')
 " highlight ColorColumn guibg=#333333 ctermbg=darkgray
 
 " Cursor shaping
@@ -465,3 +476,4 @@ if has('vim_starting')
     " Use blink line cursol on replace mode.
     let &t_SR .= "\e[4 q"
 endif
+
