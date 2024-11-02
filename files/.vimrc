@@ -32,6 +32,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'gosukiwi/vim-smartpairs'
 Plug 'dominikduda/vim_current_word'
+Plug 'whatyouhide/vim-lengthmatters'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ConradIrwin/vim-bracketed-paste'
 " User Interface
@@ -168,6 +169,7 @@ augroup END
 let g:lengthmatters_use_textwidth = 0
 let g:lengthmatters_start_at_column = 81
 let g:lengthmatters_highlight_one_column = 1
+call lengthmatters#highlight('ctermbg=0 ctermfg=7')
 
 " dominikduda/vim_current_word -------------------------------------------------
 let g:vim_current_word#highlight_current_word = 0
@@ -434,11 +436,15 @@ set nowrap                             " Disable line wrap.
 syntax enable                          " Enable syntax hilight.
 
 " Transparent background
-hi Normal guibg=NONE
-hi LineNr guibg=NONE
-hi VertSplit guibg=NONE
-hi Special guibg=NONE
-hi Identifier guibg=NONE
+if !has('gui_running')
+    augroup transparent
+      autocmd VimEnter,ColorScheme * hi Normal guibg=NONE
+      autocmd VimEnter,ColorScheme * hi LineNr guibg=NONE
+      autocmd VimEnter,ColorScheme * hi VertSplit guibg=NONE
+      autocmd VimEnter,ColorScheme * hi Special guibg=NONE
+      autocmd VimEnter,ColorScheme * hi Identifier guibg=NONE
+    augroup END
+endif
 
 " Status & command line
 set showcmd
