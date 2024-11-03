@@ -1,6 +1,6 @@
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Description
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " This .vimrc file contains the following contents:
 " - Plugins
 " - General settings
@@ -13,9 +13,9 @@
 " - Search settings
 " - Appearance settings
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Plugins
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 
 call plug#begin()
 
@@ -58,7 +58,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 call plug#end()
 
-" Colorscheme ------------------------------------------------------------------
+" Colorscheme -----------------------------------------------------------------
 " colorscheme one
 " colorscheme ayu
 " let ayucolor="mirage"
@@ -68,11 +68,11 @@ colorscheme gotham
 " colorscheme badwolf
 " colorscheme catppuccin_mocha
 
-" vim-airline/vim-airline ------------------------------------------------------
+" vim-airline/vim-airline -----------------------------------------------------
 let g:airline_theme  = 'gotham'
 " let g:airline_theme  = 'distinguished'
 
-" Plugin's commands ------------------------------------------------------------
+" Plugin's commands -----------------------------------------------------------
 nnoremap <silent> ff :Files<CR>
 nnoremap <silent> fg :GFiles<CR>
 nnoremap <silent> fr :RG<CR>
@@ -88,7 +88,7 @@ nnoremap <silent> gj :LspNextDiagnostic<CR>
 nnoremap <silent> gk :LspPreviousDiagnostic<CR>
 nnoremap <silent> gf :LspDocumentFormat<CR>
 
-" liuchengxu/vim-which-key -----------------------------------------------------
+" liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
 let g:which_key_map = {}
 let g:which_key_map['e'] = {
@@ -144,57 +144,45 @@ let g:which_key_map['z'] = {
       \ }
 call which_key#register('<Space>', "g:which_key_map")
 
-" prabirshrestha/vim-lsp -------------------------------------------------------
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nnoremap <buffer> <expr><c-j> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-k> lsp#scroll(-4)
-    inoremap <buffer> <expr><c-j> lsp#scroll(+4)
-    inoremap <buffer> <expr><c-k> lsp#scroll(-4)
-    let g:lsp_fold_enabled = 0
-    let g:lsp_diagnostics_echo_cursor = 1
-    let g:lsp_diagnostics_signs_enabled = 1
-    let g:lsp_diagnostics_virtual_text_enabled = 0
-    let g:lsp_diagnostics_highlights_enabled = 0
-endfunction
+" prabirshrestha/vim-lsp ------------------------------------------------------
+nnoremap <expr><c-j> lsp#scroll(+4)
+nnoremap <expr><c-k> lsp#scroll(-4)
+inoremap <expr><c-j> lsp#scroll(+4)
+inoremap <expr><c-k> lsp#scroll(-4)
+let g:lsp_fold_enabled = 0
+let g:lsp_diagnostics_signs_enabled = 1
+let g:lsp_diagnostics_virtual_text_enabled = 0
+let g:lsp_diagnostics_highlights_enabled = 0
+let g:lsp_diagnostics_echo_cursor = 1
 
-augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-" whatyouhide/vim-lengthmatters ------------------------------------------------
-let g:lengthmatters_use_textwidth = 0
-let g:lengthmatters_start_at_column = 81
+" whatyouhide/vim-lengthmatters -----------------------------------------------
 let g:lengthmatters_highlight_one_column = 1
 call lengthmatters#highlight('ctermbg=0 ctermfg=7')
 
-" dominikduda/vim_current_word -------------------------------------------------
+" dominikduda/vim_current_word ------------------------------------------------
 let g:vim_current_word#highlight_current_word = 0
 let g:vim_current_word#highlight_delay = 500
 let g:vim_current_word#excluded_filetypes = ['markdown']
 
-" prabirshrestha/asyncomplete.vim ----------------------------------------------
+" prabirshrestha/asyncomplete.vim ---------------------------------------------
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
-" obcat/vim-sclow --------------------------------------------------------------
+" obcat/vim-sclow -------------------------------------------------------------
 set updatetime=100
 let g:sclow_block_buftypes = ['terminal', 'prompt']
 let g:sclow_hide_full_length = 1
 let g:sclow_sbar_text = '┃'
 
-" preservim/vim-markdown -------------------------------------------------------
+" preservim/vim-markdown ------------------------------------------------------
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_borderless_table = 1
 let g:vim_markdown_auto_insert_bullets = 0
 
-" voldikss/vim-floaterm --------------------------------------------------------
+" voldikss/vim-floaterm -------------------------------------------------------
 let g:floaterm_autoclose = 2
 let g:floaterm_height = 0.9
 let g:floaterm_width = 0.9
@@ -203,7 +191,7 @@ augroup vimrc_floaterm
   autocmd QuitPre * FloatermKill!
 augroup END
 
-" fzf.vim  ---------------------------------------------------------------------
+" fzf.vim  --------------------------------------------------------------------
 " Modified RG command to direct path
 function! FZGrep(query, fullscreen)
   let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --smart-case -- %s || true'
@@ -231,7 +219,7 @@ command! -bang -nargs=? FZFMru call fzf_mru#actions#mru(<q-args>,
       \]
     \})
 
-" luochen1990/rainbow ----------------------------------------------------------
+" luochen1990/rainbow ---------------------------------------------------------
 let g:rainbow_active = 1
 let g:rainbow_conf = {
       \'guifgs': ['orange', 'magenta', 'cyan'],
@@ -239,9 +227,9 @@ let g:rainbow_conf = {
       \'guis': ['bold'],'cterms': ['bold']
       \}
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " General settings
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 set nobackup              " Not create backup file.
 set noswapfile            " Not create swapfile.
 set smartindent           " Use smart indent.
@@ -256,9 +244,9 @@ set signcolumn=yes        " Always show a sign column to show lsp signs
 set mouse=a               " Enable mouse controls in nomal, visual, insert and command mode.
 set autochdir             " Change Current Directory when open tab/buffer.
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " File Tree View (netrw)
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 filetype plugin indent on     " Enable filetree-view (netrw)
 filetype plugin on            " Enable plugin
 set nocp                      " Disable 'compatible'
@@ -287,9 +275,9 @@ function! ToggleNetrw()
     endif
 endfunction
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Auto commands
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 autocmd!
 " to load .vimrc automaticaly when change it.
 au BufWritePost *.vimrc source ~/.vimrc
@@ -313,9 +301,14 @@ autocmd VimLeave * call SaveSess()
 autocmd VimEnter * nested call RestoreSess()
 augroup END
 
-" ------------------------------------------------------------------------------
+" Reload buffer
+autocmd BufWritePost * sleep 1
+autocmd BufWritePost * checktime
+set autoread
+
+" -----------------------------------------------------------------------------
 " Custom Keybinds
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Enable jj key for exit insert mode.
 inoremap <silent> jj <ESC>
 vnoremap <silent> nn <ESC>
@@ -399,34 +392,34 @@ vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><C
 " Toggle netrw
 noremap <silent><C-o> :call ToggleNetrw()<CR>
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Input settings
-" ------------------------------------------------------------------------------
-set whichwrap=b,s,h,l,<,>,[,]   " Cursol can move between line end to line head.
+" -----------------------------------------------------------------------------
+set whichwrap=b,s,h,l,<,>,[,]   " Cursol can move between line end to line head
 set backspace=indent,eol,start  " Enable backspace.
 set shiftwidth=2                " Change indent to space.
 set wildmode=list:longest       " Complement file name when input command.
 set textwidth=0                 " Disable auto indentation.
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Tab's number settings
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 set list listchars=tab:\?\-  " Tab are displayed as symbols.
 set expandtab                " Modify tab to space.
 set tabstop=2                " Set number of tabs (at line top).
 set shiftwidth=2             " Set number of tabs (inline).
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Search settings
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 set smartcase  " Ignore case sensitivity when search strings is lower case.
 set incsearch   " Enable live search.
 set wrapscan    " Go file head when search is arrive at EOF
 set hlsearch    " Hilight search strings.
 
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 " Appearance settings
-" ------------------------------------------------------------------------------
+" -----------------------------------------------------------------------------
 set t_Co=256                           " Enable 256 colors.
 set termguicolors                      " Enable termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
