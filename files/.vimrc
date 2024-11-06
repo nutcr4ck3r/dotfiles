@@ -29,6 +29,7 @@ Plug 'catppuccin/vim', {'as': 'catppuccin'}
 " Editing Support
 Plug 'obcat/vim-hitspop'
 Plug 'tpope/vim-surround'
+Plug 'djoshea/vim-autoread'
 Plug 'tpope/vim-commentary'
 Plug 'gosukiwi/vim-smartpairs'
 Plug 'dominikduda/vim_current_word'
@@ -36,18 +37,19 @@ Plug 'whatyouhide/vim-lengthmatters'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ConradIrwin/vim-bracketed-paste'
 " User Interface
-Plug 'junegunn/fzf'
 Plug 'obcat/vim-sclow'
-Plug 'junegunn/fzf.vim'
 Plug 'pacha/vem-tabline'
 Plug 'pbogut/fzf-mru.vim'
 Plug 'luochen1990/rainbow'
-Plug 'voldikss/vim-floaterm'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
-Plug 'liuchengxu/vim-which-key'
-Plug 'whatyouhide/vim-lengthmatters'
 Plug 'vim-airline/vim-airline-themes'
+" Vim controlling
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'simeji/winresizer'
+Plug 'voldikss/vim-floaterm'
+Plug 'liuchengxu/vim-which-key'
 " Coding
 Plug 'SidOfc/mkdx'
 Plug 'preservim/vim-markdown'
@@ -87,6 +89,7 @@ nnoremap <silent> gh :LspHover<CR>
 nnoremap <silent> gj :LspNextDiagnostic<CR>
 nnoremap <silent> gk :LspPreviousDiagnostic<CR>
 nnoremap <silent> gf :LspDocumentFormat<CR>
+nnoremap <Silent> <C-e> :WinResizerStartResize<CR>
 
 " liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
@@ -95,6 +98,7 @@ let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
       \ 's' : [':StripWhitespace', 'StripWhitespace: Delete all trailing spaces'],
       \ 'd' : [':GitGutterDiffOrig', 'GitGutterDiffOrig: Show git dif'],
+      \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize: Start window resize mode'],
       \ }
 let g:which_key_map['f'] = {
       \ 'name' : '+fzf' ,
@@ -237,6 +241,7 @@ set fenc=utf-8            " Use UFT-8
 set autoread              " Reload file automatically when editing file was modify.
 set hidden                " Enable to open other file when editing buffer.
 set clipboard=unnamedplus " Ebable allignment to clipboard.
+set clipboard+=unnamed    " Reflect yank value to register.
 set belloff=all           " Disable beep.
 set timeoutlen=400        " Timeout time untill key input.
 set updatetime=200        " Set update time for gitgutter sign updating
@@ -300,11 +305,6 @@ endfunction
 autocmd VimLeave * call SaveSess()
 autocmd VimEnter * nested call RestoreSess()
 augroup END
-
-" Reload buffer
-autocmd BufWritePost * sleep 1
-autocmd BufWritePost * checktime
-set autoread
 
 " -----------------------------------------------------------------------------
 " Custom Keybinds
@@ -412,7 +412,7 @@ set shiftwidth=2             " Set number of tabs (inline).
 " -----------------------------------------------------------------------------
 " Search settings
 " -----------------------------------------------------------------------------
-set smartcase  " Ignore case sensitivity when search strings is lower case.
+set ignorecase  " Ignore case sensitivity when search strings is lower case.
 set incsearch   " Enable live search.
 set wrapscan    " Go file head when search is arrive at EOF
 set hlsearch    " Hilight search strings.
@@ -475,4 +475,3 @@ if has('vim_starting')
     " Use blink line cursol on replace mode.
     let &t_SR .= "\e[4 q"
 endif
-
