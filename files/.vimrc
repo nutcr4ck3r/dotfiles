@@ -39,7 +39,6 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 " User Interface
 Plug 'obcat/vim-sclow'
 Plug 'pacha/vem-tabline'
-Plug 'pbogut/fzf-mru.vim'
 Plug 'luochen1990/rainbow'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
@@ -48,6 +47,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'simeji/winresizer'
+Plug 'pbogut/fzf-mru.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'liuchengxu/vim-which-key'
 " Coding
@@ -475,3 +475,4 @@ if has('vim_starting')
     " Use blink line cursol on replace mode.
     let &t_SR .= "\e[4 q"
 endif
+
