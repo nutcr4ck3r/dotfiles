@@ -61,7 +61,7 @@ bindkey "^U" fzf-cdr
 export PATH=${PATH}:/snap/bin
 export PATH=${PATH}:/opt/java/jdk/bin
 export PATH=${PATH}:$HOME/.local/bin
-export PATH=${PATH}:$HOME/git/dotfiles/bin
+export PATH=${PATH}:$HOME/git/sampledotfiles/bin
 export PATH=${PATH}:$HOME/git/dotfiles/bin
 export PATH=${PATH}:$HOME/.nodebrew/current/bin
 export PATH=${PATH}:/usr/local/opt/mysql-client/bin
