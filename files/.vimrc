@@ -60,6 +60,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-maketable'
 Plug 'preservim/vim-markdown'
 Plug 'bullets-vim/bullets.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 call plug#end()
 
@@ -136,6 +137,8 @@ let g:which_key_map['m'] = {
       \ 'f' : [':TableFormat', 'TableFormat: Format table under the cursor'],
       \ 'r' : [':RenumberList', 'RenumberList: Renumber number list'],
       \ 'R' : [':RenumberSelection', 'RenumberSelection: Renumber number list in selection'],
+      \ 'c' : [':ToggleCheckbox', 'ToggleCheckbox: Toggle marker the nearest checkbox'],
+      \ 'p' : [':MarkdownPreview', 'MarkdownPreview: Preview markdown file on the default browser'],
       \ }
 let g:which_key_map['p'] = {
       \ 'name' : '+Plug' ,
@@ -165,18 +168,18 @@ nnoremap <expr><c-k> lsp#scroll(-4)
 inoremap <expr><c-j> lsp#scroll(+4)
 inoremap <expr><c-k> lsp#scroll(-4)
 let g:lsp_fold_enabled = 0
-let g:lsp_diagnostics_signs_enabled = 1
-let g:lsp_diagnostics_virtual_text_enabled = 0
-let g:lsp_diagnostics_highlights_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_signs_enabled = 1
+let g:lsp_diagnostics_highlights_enabled = 0
+let g:lsp_diagnostics_virtual_text_enabled = 0
 
 " whatyouhide/vim-lengthmatters -----------------------------------------------
 let g:lengthmatters_highlight_one_column = 1
 call lengthmatters#highlight('ctermbg=0 ctermfg=7')
 
 " dominikduda/vim_current_word ------------------------------------------------
-let g:vim_current_word#highlight_current_word = 0
 let g:vim_current_word#highlight_delay = 500
+let g:vim_current_word#highlight_current_word = 0
 let g:vim_current_word#excluded_filetypes = ['markdown']
 
 " prabirshrestha/asyncomplete.vim ---------------------------------------------
@@ -186,25 +189,25 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 " obcat/vim-sclow -------------------------------------------------------------
 set updatetime=100
-let g:sclow_block_buftypes = ['terminal', 'prompt']
-let g:sclow_hide_full_length = 1
 let g:sclow_sbar_text = '┃'
+let g:sclow_hide_full_length = 1
+let g:sclow_block_buftypes = ['terminal', 'prompt']
 
 " preservim/vim-markdown ------------------------------------------------------
 let g:vim_markdown_folding_disabled = 0
-let g:vim_markdown_no_default_key_mappings = 1
-let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_borderless_table = 1
 let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_no_default_key_mappings = 1
 
 " bullets-vim/bullets.vim -----------------------------------------------------
 let g:bullets_pad_right = 0
 let g:bullets_outline_levels = []
 
 " voldikss/vim-floaterm -------------------------------------------------------
-let g:floaterm_autoclose = 2
-let g:floaterm_height = 0.9
 let g:floaterm_width = 0.9
+let g:floaterm_height = 0.9
+let g:floaterm_autoclose = 2
 augroup vimrc_floaterm
   autocmd!
   autocmd QuitPre * FloatermKill!
@@ -459,6 +462,7 @@ set showcmd
 set cmdheight=1
 set laststatus=2
 set display=lastline
+" Statusline for plain (without using plugin) vim
 " set statusline=%{mode()}│%f\ %m│%R%<
 " set statusline+=%=│%Y│%{&fileencoding}│row\ %L│
 
