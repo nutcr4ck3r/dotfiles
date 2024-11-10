@@ -60,9 +60,9 @@ bindkey "^U" fzf-cdr
 alias rnmap='sudo nmap -sS $IP'
 alias rgobuster='gobuster -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
 alias rferoxbuster='feroxbuster -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
-alias rsmbclient='smbclicent -N -L $IP'
+alias rsmbclient='smbclient -N -L $IP'
 alias rftp="ftp -A ftp://anonymous'':@$IP"
-alias Ip="echo 'IP: $IP'"
+alias Ip="echo -e 'IP:\n$IP'"
 export IP=192.168.1.1
 
 # set path
