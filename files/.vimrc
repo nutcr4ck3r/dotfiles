@@ -331,6 +331,10 @@ augroup END
 inoremap <silent> jj <ESC>
 vnoremap <silent> nn <ESC>
 
+" Reload editor
+nnoremap <silent> <F5> :e<CR>
+
+
 " Enable direct cursor moving in wrapped line
 nnoremap j gj
 nnoremap k gk
@@ -494,4 +498,3 @@ if has('vim_starting')
     " Use blink line cursol on replace mode.
     let &t_SR .= "\e[4 q"
 endif
-
