@@ -51,12 +51,15 @@ Plug 'pbogut/fzf-mru.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'liuchengxu/vim-which-key'
 " Coding
-Plug 'SidOfc/mkdx'
-Plug 'preservim/vim-markdown'
+" general
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" markdown (.md)
+Plug 'mattn/vim-maketable'
+Plug 'preservim/vim-markdown'
+Plug 'bullets-vim/bullets.vim'
 
 call plug#end()
 
@@ -83,6 +86,7 @@ nnoremap <silent> <C-t> :FloatermToggle<CR>
 tnoremap <silent> <C-t> <C-\><C-n>:FloatermToggle<CR>
 let mapleader = "\<Space>"
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :WhichKeyVisual '<Space>'<CR>
 nnoremap <silent> gd :LspDefinition<CR>
 nnoremap <silent> gr :LspRename<CR>
 nnoremap <silent> gh :LspHover<CR>
@@ -93,29 +97,30 @@ nnoremap <Silent> <C-e> :WinResizerStartResize<CR>
 
 " liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
+let g:which_key_vertical = 1
 let g:which_key_map = {}
 let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
       \ 's' : [':StripWhitespace', 'StripWhitespace: Delete all trailing spaces'],
       \ 'd' : [':GitGutterDiffOrig', 'GitGutterDiffOrig: Show git dif'],
-      \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize: Start window resize mode'],
+      \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize (<C-e>): Start window resize mode'],
       \ }
 let g:which_key_map['f'] = {
       \ 'name' : '+fzf' ,
-      \ 'f' : [':Files', 'Files: Search Files in the CD'],
-      \ 'm' : [':FZFMru', 'FZFMru: Search MRU'],
-      \ 'g' : [':GFiles', 'GFiles: Search Files in the Git repo'],
-      \ 'r' : [':RG', 'RG: Search Strings in the CD'],
+      \ 'f' : [':Files', 'Files (ff): Search Files in the CD'],
+      \ 'm' : [':FZFMru', 'FZFMru (fm): Search MRU'],
+      \ 'g' : [':GFiles', 'GFiles (fg): Search Files in the Git repo'],
+      \ 'r' : [':RG', 'RG (fr): Search Strings in the CD'],
       \ 'c' : [':Colors', 'Colors: Search installed colorschemes'],
       \ }
 let g:which_key_map['g'] = {
       \ 'name' : '+lsp' ,
-      \ 'd' : [':LspDefinition', 'LspDefinition: Go to the definition of the word'],
-      \ 'r' : [':LspRename', 'LspRename: Rename symbol'],
-      \ 'h' : [':LspHover', 'LspHover: Show hover information'],
-      \ 'j' : [':LspNextDiagnostic', 'LspNextDiagnostic: Jump to next diagnostics'],
-      \ 'k' : [':LspPreviousDiagnostic', 'LspPreviousDiagnostic: Jump to previous diagnostics'],
-      \ 'f' : [':LspDocumentFormat', 'LspDocumentFormat: Format the document'],
+      \ 'd' : [':LspDefinition', 'LspDefinition (gd): Go to the definition of the word'],
+      \ 'r' : [':LspRename', 'LspRename (gr): Rename symbol'],
+      \ 'h' : [':LspHover', 'LspHover (gh): Show hover information'],
+      \ 'j' : [':LspNextDiagnostic', 'LspNextDiagnostic (gj): Jump to next diagnostics'],
+      \ 'k' : [':LspPreviousDiagnostic', 'LspPreviousDiagnostic (gk): Jump to previous diagnostics'],
+      \ 'f' : [':LspDocumentFormat', 'LspDocumentFormat (gf): Format the document'],
       \ 'i' : [':LspInstallServer', 'LspInstallServer: Install Language Server'],
       \ 'u' : [':LspUninstallServer', 'LspUninstallServer: Unstall Language Server'],
       \ 'm' : [':LspManageServers', 'LspManageServers: Manage Language Servers'],
@@ -124,7 +129,13 @@ let g:which_key_map['m'] = {
       \ 'name' : '+Markdown' ,
       \ 't' : [':Tocv', 'Tocv: Create vertical TOC'],
       \ 'T' : [':Toch', 'Toch: Create horizontal TOC'],
+      \ 'i' : [':InsertToc', 'InsertToc: Insert TOC'],
+      \ 'm' : [':MakeTable!', 'MakeTable!: Make table from CSV'],
+      \ 'M' : [':MakeTable! \t', 'MakeTable: Make table from TSV'],
+      \ 'u' : [':UnmakeTable', 'UnmakeTable: Convert table to CSV'],
       \ 'f' : [':TableFormat', 'TableFormat: Format table under the cursor'],
+      \ 'r' : [':RenumberList', 'RenumberList: Renumber number list'],
+      \ 'R' : [':RenumberSelection', 'RenumberSelection: Renumber number list in selection'],
       \ }
 let g:which_key_map['p'] = {
       \ 'name' : '+Plug' ,
@@ -136,15 +147,15 @@ let g:which_key_map['p'] = {
       \ }
 let g:which_key_map['z'] = {
       \ 'name' : '+Fold' ,
-      \ 'f' : ['zf', 'Create fold'],
-      \ 'D' : ['zD', 'Delete all fold'],
-      \ 'k' : ['zk', 'Close fold'],
-      \ 'j' : ['zj', 'Open one fold'],
-      \ 'J' : ['zJ', 'Open all fold'],
-      \ 'h' : ['zh', 'Collapse one fold in the page'],
-      \ 'H' : ['zH', 'Collapse all fold in the page'],
-      \ 'l' : ['zl', 'Open one fold in the page'],
-      \ 'L' : ['zL', 'Open all fold in the page'],
+      \ 'f' : ['zf', '(zf): Create fold'],
+      \ 'D' : ['zD', '(zD): Delete all fold'],
+      \ 'k' : ['zk', '(zk): Close fold'],
+      \ 'j' : ['zj', '(zj): Open one fold'],
+      \ 'J' : ['zJ', '(zJ): Open all fold'],
+      \ 'h' : ['zh', '(zh): Collapse one fold in the page'],
+      \ 'H' : ['zH', '(zH): Collapse all fold in the page'],
+      \ 'l' : ['zl', '(zl): Open one fold in the page'],
+      \ 'L' : ['zL', '(zL): Open all fold in the page'],
       \ }
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -180,11 +191,15 @@ let g:sclow_hide_full_length = 1
 let g:sclow_sbar_text = '┃'
 
 " preservim/vim-markdown ------------------------------------------------------
-let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_folding_disabled = 0
 let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_borderless_table = 1
 let g:vim_markdown_auto_insert_bullets = 0
+
+" bullets-vim/bullets.vim -----------------------------------------------------
+let g:bullets_pad_right = 0
+let g:bullets_outline_levels = []
 
 " voldikss/vim-floaterm -------------------------------------------------------
 let g:floaterm_autoclose = 2
