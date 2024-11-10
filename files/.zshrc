@@ -56,22 +56,30 @@ alias mvp='pa mv'
 alias sp='searchsploit'
 bindkey "^K" fzf-history-selection
 bindkey "^U" fzf-cdr
+# for pentesting
+alias rnmap='sudo nmap -sS $IP'
+alias rgobuster='gobuster -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
+alias rferoxbuster='feroxbuster -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
+alias rsmbclient='smbclicent -N -L $IP'
+alias rftp="ftp -A ftp://anonymous'':@$IP"
+alias Ip="echo 'IP: $IP'"
+export IP=192.168.1.1
 
 # set path
 export PATH=${PATH}:/snap/bin
 export PATH=${PATH}:/opt/java/jdk/bin
-export PATH=${PATH}:$HOME/.local/bin
-export PATH=${PATH}:$HOME/git/sampledotfiles/bin
-export PATH=${PATH}:$HOME/git/dotfiles/bin
-export PATH=${PATH}:$HOME/.nodebrew/current/bin
+export PATH=$HOME/.local/bin:${PATH}
+export PATH=$HOME/git/dotfiles/bin:${PATH}
+export PATH=$HOME/.deno/bin:${PATH}
+export PATH=$HOME/.nodebrew/current/bin:${PATH}
 export PATH=${PATH}:/usr/local/opt/mysql-client/bin
 # colorful man page
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANROFFOPT="-c"
 # for pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 # for ranger
 export EDITOR=vim
 
@@ -92,11 +100,15 @@ precmd () { vcs_info }
 export PREV_COMMAND_END_TIME
 export NEXT_COMMAND_BGN_TIME
 
+# Show python virtual env
+function virtualenv_info {
+  [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+}
 function show_command_end_time() {
   PREV_COMMAND_END_TIME=`date "+%Y-%m-%d %H:%M:%S %Z"`
   PROMPT="
 %F{237}IN: ${PREV_COMMAND_END_TIME}%f
-%F{cyan}[%n]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}
+%F{cyan}[%n]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}%F{yellow}$(virtualenv_info)
 %F{red}>%F{yellow}>%F{green}>%f%b '
 }
 autoload -Uz add-zsh-hook
@@ -106,7 +118,7 @@ show_command_begin_time() {
   NEXT_COMMAND_BGN_TIME=`date "+%Y-%m-%d %H:%M:%S %Z"`
   PROMPT="
 %F{237}IN: ${PREV_COMMAND_END_TIME} -> OUT: ${NEXT_COMMAND_BGN_TIME}%f
-%F{cyan}[%n]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}
+%F{cyan}[%n]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}%F{yellow}$(virtualenv_info)
 %F{red}>%F{yellow}>%F{green}>%f%b '
   zle .accept-line
   zle .reset-prompt
