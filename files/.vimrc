@@ -140,8 +140,8 @@ let g:which_key_map['m'] = {
       \ 'R' : [':RenumberSelection', 'RenumberSelection: Renumber number list in selection'],
       \ 'c' : [':ToggleCheckbox', 'ToggleCheckbox: Toggle marker the nearest checkbox'],
       \ 'p' : [':MarkdownPreview', 'MarkdownPreview: Preview markdown file on the default browser'],
-      \ 'n' : [':NumberHeader', 'NumberHeader: Numbering to headers'],
-      \ 'N' : [':call RemoveNumbers()', 'call RemoveNumbers: Remove Numbers from headers'],
+      \ 'n' : [':NumberHeader', 'NumberHeader: Number to headers'],
+      \ 'N' : [':call UnNumberHeader()', 'call UnNumberHeader(): Unnumber from headers'],
       \ }
 let g:which_key_map['p'] = {
       \ 'name' : '+Plug' ,
@@ -257,7 +257,7 @@ let g:denops_disable_version_check = 1
 
 " i9wa4/vim-markdown-number-header --------------------------------------------
 let g:mnh_header_level_shift = 1
-function! RemoveNumbers()
+function! UnNumberHeader()
   let g:mnh_header_level_shift = 99
   NumberHeader
   let g:mnh_header_level_shift = 1
