@@ -52,6 +52,7 @@ Plug 'voldikss/vim-floaterm'
 Plug 'liuchengxu/vim-which-key'
 " Coding
 " general
+Plug 'vim-denops/denops.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -60,6 +61,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-maketable'
 Plug 'preservim/vim-markdown'
 Plug 'bullets-vim/bullets.vim'
+Plug 'i9wa4/vim-markdown-number-header'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 call plug#end()
@@ -139,6 +141,8 @@ let g:which_key_map['m'] = {
       \ 'R' : [':RenumberSelection', 'RenumberSelection: Renumber number list in selection'],
       \ 'c' : [':ToggleCheckbox', 'ToggleCheckbox: Toggle marker the nearest checkbox'],
       \ 'p' : [':MarkdownPreview', 'MarkdownPreview: Preview markdown file on the default browser'],
+      \ 'n' : [':NumberHeader', 'NumberHeader: Numbering to headers'],
+      \ 'N' : [':call RemoveNumbers()', 'call RemoveNumbers: Remove Numbers from headers'],
       \ }
 let g:which_key_map['p'] = {
       \ 'name' : '+Plug' ,
@@ -248,6 +252,17 @@ let g:rainbow_conf = {
       \'ctermfgs': ['yellow', 'magenta', 'cyan'],
       \'guis': ['bold'],'cterms': ['bold']
       \}
+
+" vim-denops/denops.vim -------------------------------------------------------
+let g:denops_disable_version_check = 1
+
+" i9wa4/vim-markdown-number-header --------------------------------------------
+let g:mnh_header_level_shift = 1
+function! RemoveNumbers()
+  let g:mnh_header_level_shift = 99
+  NumberHeader
+  let g:mnh_header_level_shift = 1
+endfunction
 
 " -----------------------------------------------------------------------------
 " General settings
@@ -498,3 +513,4 @@ if has('vim_starting')
     " Use blink line cursol on replace mode.
     let &t_SR .= "\e[4 q"
 endif
+
