@@ -32,8 +32,8 @@ ln -s /usr/bin/batcat ~/.local/bin/bat
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# pyenv
-curl https://pyenv.run | bash
+# deno (for Markdown-Number-Header)
+curl -fsSL https://deno.land/install.sh | sh
 
 # Download & install HackGen Console NF
 wget https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
