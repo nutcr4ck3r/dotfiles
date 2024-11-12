@@ -1,0 +1,7 @@
+{
+  "suggest.autoTrigger": "none",
+  "diagnostic.enable": false,
+  "pullDiagnostic.onChange": false,
+  "signature.enable": false,
+  "inlayHint.enable": false,
+}
