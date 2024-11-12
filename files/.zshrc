@@ -63,7 +63,9 @@ alias rferoxbuster='feroxbuster -u http://$IP -w /usr/share/wordlists/dirbuster/
 alias rsmbclient='smbclient -N -L $IP'
 alias rftp="ftp -A ftp://anonymous'':@$IP"
 alias Ip="echo -e 'IP:\n$IP'"
-export IP=192.168.1.1
+if [ -f "$HOME/.ip" ]; then
+    source "$HOME/.ip"
+fi
 
 # set path
 export PATH=${PATH}:/snap/bin

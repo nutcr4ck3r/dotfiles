@@ -9,8 +9,15 @@ if [ -z "$NEW_IP" ]; then
   exit 1
 fi
 
+# Check file existence
+if [ ! -f ~/.ip ]; then
+  # Create ~/.ip file with default IP
+  echo 'export IP=192.168.1.2' > ~/.ip
+  echo "~/.ip file created with default IP value."
+fi
+
 # Replace IP address to new address on ~/.zshrc
-sed -i "s/^export IP=[0-9.]\+/export IP=${NEW_IP}/" ~/git/dotfiles/files/.zshrc
+sed -i "s/^export IP=[0-9.]\+/export IP=${NEW_IP}/" ~/.ip
 
 echo "IP has renew to $NEW_IP"
 
