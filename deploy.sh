@@ -20,6 +20,9 @@ for var in "${dots[@]}"; do
   fi
 done
 
+# for coc-settings.json
+ln -s "$(cd $(dirname $0); pwd)/coc-settings.json" "$HOME/.vim/coc-settings.json"
+
 # Delete old files.
 printf "Delete orginal files? [y/n:default (n)] : "
 read -r res
