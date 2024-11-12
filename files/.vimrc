@@ -43,6 +43,13 @@ Plug 'luochen1990/rainbow'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+"fern
+Plug 'lambdalisue/vim-fern'
+Plug 'ryanoasis/vim-devicons'
+Plug 'lambdalisue/vim-nerdfont'
+Plug 'lambdalisue/vim-glyph-palette'
+Plug 'lambdalisue/vim-fern-git-status'
+Plug 'brandon1024/fern-renderer-nf.vim'
 " Vim controlling
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -57,6 +64,7 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " markdown (.md)
 Plug 'mattn/vim-maketable'
 Plug 'preservim/vim-markdown'
@@ -97,6 +105,7 @@ nnoremap <silent> gj :LspNextDiagnostic<CR>
 nnoremap <silent> gk :LspPreviousDiagnostic<CR>
 nnoremap <silent> gf :LspDocumentFormat<CR>
 nnoremap <Silent> <C-e> :WinResizerStartResize<CR>
+noremap <silent><C-o> :Fern . -drawer -toggle<CR>
 
 " liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
@@ -141,7 +150,7 @@ let g:which_key_map['m'] = {
       \ 'c' : [':ToggleCheckbox', 'ToggleCheckbox: Toggle marker the nearest checkbox'],
       \ 'p' : [':MarkdownPreview', 'MarkdownPreview: Preview markdown file on the default browser'],
       \ 'n' : [':NumberHeader', 'NumberHeader: Number to headers'],
-      \ 'N' : [':call UnNumberHeader()', 'call UnNumberHeader(): Unnumber from headers'],
+      \ 'N' : [':call UnNumberHeader()', 'call UnNumberHeader(): Unnumbers from headers'],
       \ }
 let g:which_key_map['p'] = {
       \ 'name' : '+Plug' ,
@@ -165,6 +174,15 @@ let g:which_key_map['z'] = {
       \ }
 call which_key#register('<Space>', "g:which_key_map")
 
+" lambdalisue/vim-fern --------------------------------------------------------
+let g:fern#default_hidden = 1
+let g:fern#renderer = 'brandon1024/fern-renderer-nf.vim'
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+
 " prabirshrestha/vim-lsp ------------------------------------------------------
 nnoremap <expr><c-j> lsp#scroll(+4)
 nnoremap <expr><c-k> lsp#scroll(-4)
@@ -183,7 +201,7 @@ call lengthmatters#highlight('ctermbg=0 ctermfg=7')
 " dominikduda/vim_current_word ------------------------------------------------
 let g:vim_current_word#highlight_delay = 500
 let g:vim_current_word#highlight_current_word = 0
-let g:vim_current_word#excluded_filetypes = ['markdown']
+let g:vim_current_word#excluded_filetypes = ['markdown', 'fern']
 
 " prabirshrestha/asyncomplete.vim ---------------------------------------------
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -255,6 +273,9 @@ let g:rainbow_conf = {
 " vim-denops/denops.vim -------------------------------------------------------
 let g:denops_disable_version_check = 1
 
+" neoclide/coc.nvim -----------------------------------------------------------
+let g:coc_global_extensions = ['coc-markmap']
+
 " i9wa4/vim-markdown-number-header --------------------------------------------
 let g:mnh_header_level_shift = 1
 function! UnNumberHeader()
@@ -295,22 +316,22 @@ let g:netrw_winsize = 25      " Window size
 let g:netrw_browse_split = 4  " Splitting size
 
 " netrw toggle function
-let g:NetrwIsOpen=0
-function! ToggleNetrw()
-    if g:NetrwIsOpen
-        let i = bufnr("$")
-        while (i >= 1)
-            if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i
-            endif
-            let i-=1
-        endwhile
-        let g:NetrwIsOpen=0
-    else
-        let g:NetrwIsOpen=1
-        silent Vex
-    endif
-endfunction
+" let g:NetrwIsOpen=0
+" function! ToggleNetrw()
+"     if g:NetrwIsOpen
+"         let i = bufnr("$")
+"         while (i >= 1)
+"             if (getbufvar(i, "&filetype") == "netrw")
+"                 silent exe "bwipeout " . i
+"             endif
+"             let i-=1
+"         endwhile
+"         let g:NetrwIsOpen=0
+"     else
+"         let g:NetrwIsOpen=1
+"         silent Vex
+"     endif
+" endfunction
 
 " -----------------------------------------------------------------------------
 " Auto commands
@@ -426,7 +447,7 @@ nnoremap <silent> zL zR  " Open all fold in the page
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 
 " Toggle netrw
-noremap <silent><C-o> :call ToggleNetrw()<CR>
+" noremap <silent><C-o> :call ToggleNetrw()<CR>
 
 " -----------------------------------------------------------------------------
 " Input settings
