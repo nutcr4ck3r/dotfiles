@@ -32,6 +32,7 @@ Plug 'tpope/vim-surround'
 Plug 'djoshea/vim-autoread'
 Plug 'tpope/vim-commentary'
 Plug 'gosukiwi/vim-smartpairs'
+Plug 'junegunn/vim-easy-align'
 Plug 'dominikduda/vim_current_word'
 Plug 'whatyouhide/vim-lengthmatters'
 Plug 'ntpeters/vim-better-whitespace'
@@ -106,6 +107,8 @@ nnoremap <silent> gk :LspPreviousDiagnostic<CR>
 nnoremap <silent> gf :LspDocumentFormat<CR>
 nnoremap <Silent> <C-e> :WinResizerStartResize<CR>
 noremap <silent><C-o> :Fern . -drawer -toggle<CR>
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
@@ -113,51 +116,51 @@ let g:which_key_vertical = 1
 let g:which_key_map = {}
 let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
-      \ 's' : [':StripWhitespace', 'StripWhitespace: Delete all trailing spaces'],
-      \ 'd' : [':GitGutterDiffOrig', 'GitGutterDiffOrig: Show git dif'],
+      \ 's' : [':StripWhitespace',       'StripWhitespace: Delete all trailing spaces'],
+      \ 'd' : [':GitGutterDiffOrig',     'GitGutterDiffOrig: Show git dif'],
       \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize (<C-e>): Start window resize mode'],
       \ }
 let g:which_key_map['f'] = {
       \ 'name' : '+fzf' ,
-      \ 'f' : [':Files', 'Files (ff): Search Files in the CD'],
+      \ 'f' : [':Files',  'Files (ff): Search Files in the CD'],
       \ 'm' : [':FZFMru', 'FZFMru (fm): Search MRU'],
       \ 'g' : [':GFiles', 'GFiles (fg): Search Files in the Git repo'],
-      \ 'r' : [':RG', 'RG (fr): Search Strings in the CD'],
+      \ 'r' : [':RG',     'RG (fr): Search Strings in the CD'],
       \ 'c' : [':Colors', 'Colors: Search installed colorschemes'],
       \ }
 let g:which_key_map['g'] = {
       \ 'name' : '+lsp' ,
-      \ 'd' : [':LspDefinition', 'LspDefinition (gd): Go to the definition of the word'],
-      \ 'r' : [':LspRename', 'LspRename (gr): Rename symbol'],
-      \ 'h' : [':LspHover', 'LspHover (gh): Show hover information'],
-      \ 'j' : [':LspNextDiagnostic', 'LspNextDiagnostic (gj): Jump to next diagnostics'],
+      \ 'd' : [':LspDefinition',         'LspDefinition (gd): Go to the definition of the word'],
+      \ 'r' : [':LspRename',             'LspRename (gr): Rename symbol'],
+      \ 'h' : [':LspHover',              'LspHover (gh): Show hover information'],
+      \ 'j' : [':LspNextDiagnostic',     'LspNextDiagnostic (gj): Jump to next diagnostics'],
       \ 'k' : [':LspPreviousDiagnostic', 'LspPreviousDiagnostic (gk): Jump to previous diagnostics'],
-      \ 'f' : [':LspDocumentFormat', 'LspDocumentFormat (gf): Format the document'],
-      \ 'i' : [':LspInstallServer', 'LspInstallServer: Install Language Server'],
-      \ 'u' : [':LspUninstallServer', 'LspUninstallServer: Unstall Language Server'],
-      \ 'm' : [':LspManageServers', 'LspManageServers: Manage Language Servers'],
+      \ 'f' : [':LspDocumentFormat',     'LspDocumentFormat (gf): Format the document'],
+      \ 'i' : [':LspInstallServer',      'LspInstallServer: Install Language Server'],
+      \ 'u' : [':LspUninstallServer',    'LspUninstallServer: Unstall Language Server'],
+      \ 'm' : [':LspManageServers',      'LspManageServers: Manage Language Servers'],
       \ }
 let g:which_key_map['m'] = {
       \ 'name' : '+Markdown' ,
-      \ 't' : [':Tocv', 'Tocv: Create vertical TOC'],
-      \ 'T' : [':Toch', 'Toch: Create horizontal TOC'],
-      \ 'i' : [':InsertToc', 'InsertToc: Insert TOC'],
-      \ 'm' : [':MakeTable!', 'MakeTable!: Make table from CSV'],
-      \ 'M' : [':UnmakeTable', 'UnmakeTable: Convert table to CSV'],
-      \ 'f' : [':TableFormat', 'TableFormat: Format table under the cursor'],
-      \ 'r' : [':RenumberList', 'RenumberList: Renumber number list'],
-      \ 'R' : [':RenumberSelection', 'RenumberSelection: Renumber number list in selection'],
-      \ 'c' : [':ToggleCheckbox', 'ToggleCheckbox: Toggle marker the nearest checkbox'],
-      \ 'p' : [':MarkdownPreview', 'MarkdownPreview: Preview markdown file on the default browser'],
-      \ 'n' : [':NumberHeader', 'NumberHeader: Number to headers'],
+      \ 't' : [':Tocv',                  'Tocv: Create vertical TOC'],
+      \ 'T' : [':Toch',                  'Toch: Create horizontal TOC'],
+      \ 'i' : [':InsertToc',             'InsertToc: Insert TOC'],
+      \ 'm' : [':MakeTable!',            'MakeTable!: Make table from CSV'],
+      \ 'M' : [':UnmakeTable',           'UnmakeTable: Convert table to CSV'],
+      \ 'f' : [':TableFormat',           'TableFormat: Format table under the cursor'],
+      \ 'r' : [':RenumberList',          'RenumberList: Renumber number list'],
+      \ 'R' : [':RenumberSelection',     'RenumberSelection: Renumber number list in selection'],
+      \ 'c' : [':ToggleCheckbox',        'ToggleCheckbox: Toggle marker the nearest checkbox'],
+      \ 'p' : [':MarkdownPreview',       'MarkdownPreview: Preview markdown file on the default browser'],
+      \ 'n' : [':NumberHeader',          'NumberHeader: Number to headers'],
       \ 'N' : [':call UnNumberHeader()', 'call UnNumberHeader(): Unnumbers from headers'],
       \ }
 let g:which_key_map['p'] = {
       \ 'name' : '+Plug' ,
       \ 'i' : [':PlugInstall', 'PlugInstall: Install listed plugins'],
-      \ 'c' : [':PlugClean', 'PlugClean: Uninstall unlisted plugins'],
-      \ 'd' : [':PlugDiff', 'PlugDiff: Show diff Pre/Post editing'],
-      \ 'u' : [':PlugUpdate', 'PlugUpdate: Update/Install listed plugins'],
+      \ 'c' : [':PlugClean',   'PlugClean: Uninstall unlisted plugins'],
+      \ 'd' : [':PlugDiff',    'PlugDiff: Show diff Pre/Post editing'],
+      \ 'u' : [':PlugUpdate',  'PlugUpdate: Update/Install listed plugins'],
       \ 'U' : [':PlugUpgrade', 'PlugUpgrade: Update vim-plug itself'],
       \ }
 let g:which_key_map['z'] = {
