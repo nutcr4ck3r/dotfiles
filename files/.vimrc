@@ -63,6 +63,7 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'vim-denops/denops.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'akaimo/asyncomplete-around.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -72,6 +73,8 @@ Plug 'preservim/vim-markdown'
 Plug 'bullets-vim/bullets.vim'
 Plug 'i9wa4/vim-markdown-number-header'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" csv (.csv)
+Plug 'mechatroner/rainbow_csv'
 
 call plug#end()
 
@@ -114,6 +117,12 @@ nmap ga <Plug>(EasyAlign)
 let g:which_key_ignore_outside_mappings = 1
 let g:which_key_vertical = 1
 let g:which_key_map = {}
+let g:which_key_map['c'] = {
+      \ 'name' : '+csv' ,
+      \ 'a' : [':RainbowAlign',  'RainbowAlign: Add extra spaces to align columns'],
+      \ 'A' : [':RainbowShrink', 'RainbowShrink: Delete all extra spaces'],
+      \ 'l' : [':CSVLint',       'CSVLint: Check CSV format'],
+      \ }
 let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
       \ 's' : [':StripWhitespace',       'StripWhitespace: Delete all trailing spaces'],
@@ -197,7 +206,18 @@ let g:lsp_diagnostics_signs_enabled = 1
 let g:lsp_diagnostics_highlights_enabled = 0
 let g:lsp_diagnostics_virtual_text_enabled = 0
 
+" akaimo/asyncomplete-around.vim ----------------------------------------------
+call asyncomplete#register_source(asyncomplete#sources#around#get_source_options({
+    \ 'name': 'around',
+    \ 'allowlist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#around#completor'),
+    \ }))
+let g:asyncomplete_around_range = 500
+
 " whatyouhide/vim-lengthmatters -----------------------------------------------
+let g:lengthmatters_use_textwidth = 0
+let g:lengthmatters_start_at_column = 80
 let g:lengthmatters_highlight_one_column = 1
 call lengthmatters#highlight('ctermbg=0 ctermfg=7')
 
