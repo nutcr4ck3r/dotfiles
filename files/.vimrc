@@ -63,9 +63,10 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'vim-denops/denops.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-Plug 'akaimo/asyncomplete-around.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " markdown (.md)
 Plug 'mattn/vim-maketable'
@@ -206,14 +207,24 @@ let g:lsp_diagnostics_signs_enabled = 1
 let g:lsp_diagnostics_highlights_enabled = 0
 let g:lsp_diagnostics_virtual_text_enabled = 0
 
-" akaimo/asyncomplete-around.vim ----------------------------------------------
-call asyncomplete#register_source(asyncomplete#sources#around#get_source_options({
-    \ 'name': 'around',
+" prabirshrestha/asyncomplete.vim ---------------------------------------------
+" prabirshrestha/asyncomplete-buffer.vim --------------------------------------
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'allowlist': ['*'],
+    \ 'blocklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ 'config': {
+    \    'max_buffer_size': 5000000,
+    \  },
+    \ }))
+" prabirshrestha/asyncomplete-file.vim ----------------------------------------
+call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
     \ 'allowlist': ['*'],
     \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#around#completor'),
+    \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
-let g:asyncomplete_around_range = 500
 
 " whatyouhide/vim-lengthmatters -----------------------------------------------
 let g:lengthmatters_use_textwidth = 0
