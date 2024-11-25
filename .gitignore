@@ -1,0 +1,10 @@
+files/.w3m/cookie
+files/.w3m/history
+files/.w3m/w3mcache*
+files/.w3m/w3mtmp*
+files/.vim/.netrwhist
+files/.vim/plugged/
+files/.vim/autoload/
+files/.vim/colors
+.vim/
+.DS_Store
