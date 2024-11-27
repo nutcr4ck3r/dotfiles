@@ -27,6 +27,7 @@ Plug 'wadackel/vim-dogrun'
 Plug 'whatyouhide/vim-gotham'
 Plug 'catppuccin/vim', {'as': 'catppuccin'}
 " Editing Support
+Plug 'tpope/vim-repeat'
 Plug 'obcat/vim-hitspop'
 Plug 'tpope/vim-surround'
 Plug 'djoshea/vim-autoread'
