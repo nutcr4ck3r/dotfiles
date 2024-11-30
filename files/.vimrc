@@ -126,7 +126,7 @@ let g:which_key_map['c'] = {
       \ }
 let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
-      \ 'a' : [':LiveEasyAlign',         'LiveEasyAlign: Align lines with delimiter (interactive)'],
+      \ 'a' : [':LiveEasyAlign',         'LiveEasyAlign (<C-p>): Align lines with delimiter (interactive)'],
       \ 's' : [':StripWhitespace',       'StripWhitespace: Delete all trailing spaces'],
       \ 'd' : [':GitGutterDiffOrig',     'GitGutterDiffOrig: Show git dif'],
       \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize (<C-e>): Start window resize mode'],
