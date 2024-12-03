@@ -1,147 +1,202 @@
 {
-    "markdown.extension.toc.levels": "2..6",
-    "vim.hlsearch": true,
-    "vim.insertModeKeyBindings": [
-      {
-        "after": [
-          "<Esc>"
-        ],
-        "before": [
-          "j",
-          "j"
-        ]
-      }
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-      {
-        "after": [
-          "g",
-          "j"
-        ],
-        "before": [
-          "j"
-        ]
-      },
-      {
-        "after": [
-          "g",
-          "k"
-        ],
-        "before": [
-          "k"
-        ]
-      },
-      {
-        "after": [
-          "<Home>"
-        ],
-        "before": [
-          "_"
-        ]
-      },
-      {
-        "after": [
-          "<End>"
-        ],
-        "before": [
-          "-"
-        ]
-      },
-      {
-        "after": [
-          "b"
-        ],
-        "before": [
-          "<S-w>"
-        ]
-      },
-      {
-        "after": [
-          "g",
-          "e"
-        ],
-        "before": [
-          "<S-e>"
-        ]
-      },
-      {
-        "after": [
-          "<C-y>"
-        ],
-        "before": [
-          "<S-k>"
-        ]
-      },
-      {
-        "after": [
-          "<C-e>"
-        ],
-        "before": [
-          "<S-j>"
-        ]
-      }
-    ],
-    "vim.surround": true,
-    "vim.useSystemClipboard": true,
-    "vim.visualModeKeyBindings": [
-      {
-        "after": [
-          "<Esc>"
-        ],
-        "before": [
-          "n",
-          "n"
-        ]
-      },
-      {
-        "after": [
-          "<Home>"
-        ],
-        "before": [
-          "_"
-        ]
-      },
-      {
-        "after": [
-          "<End>"
-        ],
-        "before": [
-          "-"
-        ]
-      },
-      {
-        "after": [
-          "b"
-        ],
-        "before": [
-          "<S-w>"
-        ]
-      },
-      {
-        "after": [
-          "g",
-          "e"
-        ],
-        "before": [
-          "<S-e>"
-        ]
-      },
-      {
-        "after": [
-          "<C-y>"
-        ],
-        "before": [
-          "<S-k>"
-        ]
-      },
-      {
-        "after": [
-          "<C-e>"
-        ],
-        "before": [
-          "<S-j>"
-        ]
-      }
-    ],
-    "vim.whichwrap": "h,l,<,>,[,]"
-  }
+  "sortJSON.orderOverride": [
+    "sortJSON.orderOverride",
+    "editor.fontFamily",
+    "editor.fontSize",
+    "terminal.integrated.fontFamily",
+    "editor.lineHeight",
+    "terminal.external.osxExec"
+  ],
+  "editor.fontFamily": "HackGen NF",
+  "terminal.integrated.fontFamily": "HackGen Console NF",
+  "editor.lineHeight": 21,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.insertSpaces": true,
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "other": "on",
+      "strings": "on"
+    },
+    "editor.tabSize": 2,
+    "editor.wordWrap": "off"
+  },
+  "commentTranslate.targetLanguage": "ja",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.defaultColorDecorators": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.lineNumbers": "on",
+  "editor.renderControlCharacters": true,
+  "editor.rulers": [
+    79
+  ],
+  "editor.suggestSelection": "first",
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+  "editor.wordWrap": "on",
+  "errorLens.enabledDiagnosticLevels": [
+    "info"
+  ],
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "extensions.ignoreRecommendations": true,
+  "foam.files.newNotePath": "currentDir",
+  "foam.openDailyNote.directory": "1_Fleeting_notes",
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.ignoreRebaseWarning": true,
+  "glassit.alpha": 242,
+  "json.maxItemsComputed": 10000,
+  "markdown-toc.depthFrom": 2,
+  "markdown-toc.detectAndAutoSetSection": false,
+  "markdown-toc.updateOnSave": false,
+  "markdown-toc.withLinks": false,
+  "markdown.extension.toc.levels": "2..6",
+  "markdown.extension.toc.plaintext": true,
+  "markdown.extension.toc.updateOnSave": false,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "settingsSync.ignoredSettings": [
+    "editor.fontSize",
+    "terminal.integrated.fontSize",
+    "terminal.integrated.fontFamily"
+  ],
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "after": [
+        "<Esc>"
+      ],
+      "before": [
+        "j",
+        "j"
+      ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "after": [
+        "g",
+        "j"
+      ],
+      "before": [
+        "j"
+      ]
+    },
+    {
+      "after": [
+        "g",
+        "k"
+      ],
+      "before": [
+        "k"
+      ]
+    },
+    {
+      "after": [
+        "<Home>"
+      ],
+      "before": [
+        "_"
+      ]
+    },
+    {
+      "after": [
+        "<End>"
+      ],
+      "before": [
+        "-"
+      ]
+    },
+    {
+      "after": [
+        "<C-y>"
+      ],
+      "before": [
+        "<S-k>"
+      ]
+    },
+    {
+      "after": [
+        "<C-e>"
+      ],
+      "before": [
+        "<S-j>"
+      ]
+    }
+  ],
+  "vim.surround": true,
+  "vim.useSystemClipboard": true,
+  "vim.visualModeKeyBindings": [
+    {
+      "after": [
+        "<Esc>"
+      ],
+      "before": [
+        "n",
+        "n"
+      ]
+    },
+    {
+      "after": [
+        "<Home>"
+      ],
+      "before": [
+        "_"
+      ]
+    },
+    {
+      "after": [
+        "<End>"
+      ],
+      "before": [
+        "-"
+      ]
+    },
+    {
+      "after": [
+        "<C-y>"
+      ],
+      "before": [
+        "<S-k>"
+      ]
+    },
+    {
+      "after": [
+        "<C-e>"
+      ],
+      "before": [
+        "<S-j>"
+      ]
+    }
+  ],
+  "vim.whichwrap": "h,l,<,>,[,]",
+  "vscode-json-editor.theme": "dark",
+  "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}",
+  "window.titleBarStyle": "custom",
+  "workbench.colorTheme": "Dark Green Color Theme",
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.wrapTabs": true,
+  "workbench.editorAssociations": {
+    "{git,gitlens}:/**/*.{md,csv,svg}": "default"
+  },
+  "workbench.startupEditor": "none"
+}

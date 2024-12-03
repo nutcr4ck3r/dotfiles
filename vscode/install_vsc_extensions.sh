@@ -1,3 +1,5 @@
+# code --list-extensions | sed -e 's/^/code --install-extension /'
+
 code --install-extension bierner.github-markdown-preview
 code --install-extension bierner.markdown-checkbox
 code --install-extension bierner.markdown-emoji
@@ -12,6 +14,7 @@ code --install-extension dqisme.sync-scroll
 code --install-extension esbenp.prettier-vscode
 code --install-extension foam.foam-vscode
 code --install-extension gera2ld.markmap-vscode
+code --install-extension huntertran.auto-markdown-toc
 code --install-extension ibm.output-colorizer
 code --install-extension intellsmi.comment-translate
 code --install-extension ionutvmi.path-autocomplete
@@ -39,3 +42,4 @@ code --install-extension vincaslt.highlight-matching-tag
 code --install-extension xadillax.viml
 code --install-extension yzane.markdown-pdf
 code --install-extension yzhang.markdown-all-in-one
+
