@@ -257,7 +257,7 @@
         "command": "editor.action.insertSnippet"
     },
     {
-        "key": "g e",
+        "key": "ctrl+f g",
         "command": "editor.action.openLink"
     }
 ]
