@@ -113,6 +113,7 @@ nnoremap <Silent> <C-e> :WinResizerStartResize<CR>
 noremap <silent><C-o> :Fern . -drawer -toggle<CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+nnoremap <silent> ge <Plug>Markdown_EditUrlUnderCursor
 
 " liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
