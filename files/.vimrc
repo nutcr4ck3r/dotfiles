@@ -37,6 +37,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'dominikduda/vim_current_word'
 Plug 'whatyouhide/vim-lengthmatters'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'skanehira/denops-translate.vim'
 Plug 'ConradIrwin/vim-bracketed-paste'
 " User Interface
 Plug 'obcat/vim-sclow'
@@ -114,6 +115,8 @@ noremap <silent><C-o> :Fern . -drawer -toggle<CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 nnoremap <silent> ge <Plug>Markdown_EditUrlUnderCursor
+nmap t <Plug>(Translate)
+vmap t <Plug>(Translate)
 
 " liuchengxu/vim-which-key ----------------------------------------------------
 let g:which_key_ignore_outside_mappings = 1
@@ -130,16 +133,17 @@ let g:which_key_map['e'] = {
       \ 'a' : [':LiveEasyAlign',         'LiveEasyAlign (<C-p>): Align lines with delimiter (interactive)'],
       \ 's' : [':StripWhitespace',       'StripWhitespace: Delete all trailing spaces'],
       \ 'd' : [':GitGutterDiffOrig',     'GitGutterDiffOrig: Show git dif'],
+      \ 't' : ['<Plug>(Translate)',      'Translate: Translate line(s), Input y to yank result'],
       \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize (<C-e>): Start window resize mode'],
       \ }
 let g:which_key_map['f'] = {
       \ 'name' : '+fzf' ,
-      \ 'f' : [':Files',  'Files (ff): Search Files in the CD'],
-      \ 'm' : [':FZFMru', 'FZFMru (fm): Search MRU'],
+      \ 'f' : [':Files',       'Files (ff): Search Files in the CD'],
+      \ 'm' : [':FZFMru',      'FZFMru (fm): Search MRU'],
       \ 'M' : [':FZFFreshMru', 'FZFFreshMru : Search/Refresh MRU with Fresh list'],
-      \ 'g' : [':GFiles', 'GFiles (fg): Search Files in the Git repo'],
-      \ 'r' : [':RG',     'RG (fr): Search Strings in the CD'],
-      \ 'c' : [':Colors', 'Colors: Search installed colorschemes'],
+      \ 'g' : [':GFiles',      'GFiles (fg): Search Files in the Git repo'],
+      \ 'r' : [':RG',          'RG (fr): Search Strings in the CD'],
+      \ 'c' : [':Colors',      'Colors: Search installed colorschemes'],
       \ }
 let g:which_key_map['g'] = {
       \ 'name' : '+lsp' ,
@@ -346,30 +350,12 @@ set autochdir             " Change Current Directory when open tab/buffer.
 filetype plugin indent on     " Enable filetree-view (netrw)
 filetype plugin on            " Enable plugin
 set nocp                      " Disable 'compatible'
-let g:netrw_preview=1         " Split preview window
-let g:netrw_liststyle=3       " tree style
-let g:netrw_keepdir = 0       " Set current dir at tree opening
-let g:netrw_banner = 0        " Delete banner
-let g:netrw_winsize = 25      " Window size
+let g:netrw_preview      = 1  " Split preview window
+let g:netrw_liststyle    = 3  " tree style
+let g:netrw_keepdir      = 0  " Set current dir at tree opening
+let g:netrw_banner       = 0  " Delete banner
+let g:netrw_winsize      = 25 " Window size
 let g:netrw_browse_split = 4  " Splitting size
-
-" netrw toggle function
-" let g:NetrwIsOpen=0
-" function! ToggleNetrw()
-"     if g:NetrwIsOpen
-"         let i = bufnr("$")
-"         while (i >= 1)
-"             if (getbufvar(i, "&filetype") == "netrw")
-"                 silent exe "bwipeout " . i
-"             endif
-"             let i-=1
-"         endwhile
-"         let g:NetrwIsOpen=0
-"     else
-"         let g:NetrwIsOpen=1
-"         silent Vex
-"     endif
-" endfunction
 
 " -----------------------------------------------------------------------------
 " Auto commands
