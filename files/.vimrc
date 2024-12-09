@@ -132,6 +132,7 @@ let g:which_key_map['e'] = {
       \ 's' : [':StripWhitespace',       'StripWhitespace: Delete all trailing spaces'],
       \ 'd' : [':GitGutterDiffOrig',     'GitGutterDiffOrig: Show git dif'],
       \ 't' : ['<Plug>(Translate)',      'Translate: Translate line(s), Input y to yank result'],
+      \ 'T' : ['<Plug>(Translate-reverse)', 'Translate: Translate line(s), Input y to yank result'],
       \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize (<C-e>): Start window resize mode'],
       \ }
 let g:which_key_map['f'] = {
