@@ -43,6 +43,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'obcat/vim-sclow'
 Plug 'pacha/vem-tabline'
 Plug 'luochen1990/rainbow'
+Plug 'psliwka/vim-smoothie'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -128,12 +129,12 @@ let g:which_key_map['c'] = {
       \ }
 let g:which_key_map['e'] = {
       \ 'name' : '+etc' ,
-      \ 'a' : [':LiveEasyAlign',         'LiveEasyAlign (<C-p>): Align lines with delimiter (interactive)'],
-      \ 's' : [':StripWhitespace',       'StripWhitespace: Delete all trailing spaces'],
-      \ 'd' : [':GitGutterDiffOrig',     'GitGutterDiffOrig: Show git dif'],
-      \ 't' : ['<Plug>(Translate)',      'Translate: Translate line(s), Input y to yank result'],
-      \ 'T' : ['<Plug>(Translate-reverse)', 'Translate: Translate line(s), Input y to yank result'],
-      \ 'w' : [':WinResizerStartResize', 'WinResizerStartResize (<C-e>): Start window resize mode'],
+      \ 'a' : [':LiveEasyAlign',            'LiveEasyAlign (<C-p>): Align lines with delimiter (interactive)'],
+      \ 's' : [':StripWhitespace',          'StripWhitespace: Delete all trailing spaces'],
+      \ 'd' : [':GitGutterDiffOrig',        'GitGutterDiffOrig: Show git dif'],
+      \ 't' : ['<Plug>(Translate)',         'Translate: Translate line(s), Input y to yank result'],
+      \ 'T' : ['<Plug>(Translate-reverse)', 'Translate-reverse: Translate line(s), but reverse-translation'],
+      \ 'w' : [':WinResizerStartResize',    'WinResizerStartResize (<C-e>): Start window resize mode'],
       \ }
 let g:which_key_map['f'] = {
       \ 'name' : '+fzf' ,
