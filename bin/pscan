@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+from colorama import Fore, Style
+from datetime import datetime
+import argparse
+import requests
+import sys
+
+API_ENDPOINT = 'https://poc-in-github.motikan2010.net/api/v1/'
+
+SORT_MAP = {
+    'star': 'stargazers_count',
+    'date': 'updated_at'
+}
+
+
+def normalize_cve(cve_input):
+    if not cve_input.startswith("CVE-"):
+        return f"CVE-{cve_input}"
+    return cve_input
+
+
+def fetch_pocs(cve_id, sort, limit):
+    params = {'cve_id': cve_id}
+    if sort:
+        params['sort'] = SORT_MAP.get(sort, 'updated_at')
+    if limit:
+        params['limit'] = limit
+    try:
+        response = requests.get(API_ENDPOINT, params=params)
+        response.raise_for_status()
+        return response.json().get('pocs', [])
+    except requests.RequestException as e:
+        print(f"[Error] API request failed: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def display_results(pocs):
+    for i, poc in enumerate(pocs, 1):
+        print(f"{Fore.YELLOW}- Result {i:02}{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}  - cve_id:{Style.RESET_ALL} {poc.get('cve_id', 'N/A')}")
+        print(f"{Fore.CYAN}  - url:{Style.RESET_ALL} {poc.get('html_url', 'N/A')}")
+        print(f"{Fore.CYAN}  - description:{Style.RESET_ALL} {poc.get('description', 'N/A')}")
+
+        # nvd_description
+        vuln_desc = poc.get('vuln_description', 'N/A')
+        vuln_trimmed = vuln_desc[:80] + ('...' if len(vuln_desc) > 80 else '')
+        print(f"{Fore.CYAN}  - nvd_description:{Style.RESET_ALL} {vuln_trimmed}")
+
+        # stars の色分け
+        stars = int(poc.get('stargazers_count', 0))
+        if stars >= 20:
+            stars_color = Fore.RED
+        elif stars >= 5:
+            stars_color = Fore.YELLOW
+        else:
+            stars_color = Style.RESET_ALL
+        print(f"{Fore.CYAN}  - stars:{Style.RESET_ALL} {stars_color}{stars}{Style.RESET_ALL}")
+
+        # updated 日付の色分け
+        updated = poc.get('updated_at', 'N/A')
+        created = poc.get('created_at', 'N/A')
+        try:
+            updated_dt = datetime.strptime(updated, '%Y-%m-%d %H:%M:%S')
+            if (datetime.now() - updated_dt).days <= 365:
+                updated = f"{Fore.YELLOW}{updated}{Style.RESET_ALL}"
+        except Exception:
+            pass
+
+        print(f"{Fore.CYAN}  - DATE:{Style.RESET_ALL} updated/{updated}, created/{created}\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Query PoC from Canvas API")
+    parser.add_argument("cve", help="CVE ID (e.g., CVE-2021-29447 or 2021-29447)")
+    parser.add_argument("-s", "--sort", choices=['star', 'date'], default='date', help="Sort results by 'star' or 'date'")
+    parser.add_argument("-l", "--limit", type=int, help="Limit the number of results")
+    args = parser.parse_args()
+
+    cve_id = normalize_cve(args.cve)
+    pocs = fetch_pocs(cve_id, args.sort, args.limit)
+    display_results(pocs)
+
+
+if __name__ == "__main__":
+    main()
