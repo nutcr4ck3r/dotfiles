@@ -53,7 +53,6 @@ alias findp='pa find'
 alias rmp='pa rm'
 alias cpp='pa cp'
 alias mvp='pa mv'
-alias sp='searchsploit'
 bindkey "^K" fzf-history-selection
 bindkey "^U" fzf-cdr
 # for pentesting
@@ -62,6 +61,8 @@ alias rgobuster='gobuster -u http://$IP -w /usr/share/wordlists/dirbuster/direct
 alias rferoxbuster='feroxbuster -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
 alias rsmbclient='smbclient -N -L $IP'
 alias rftp="ftp -A ftp://anonymous'':@$IP"
+alias ssp='searchsploit'
+alias sps='sploitscan'
 alias pythonsv="ls && python3 -m http.server 80"
 alias Ip="echo -e 'IP:\n$IP'"
 if [ -f "$HOME/.ip" ]; then
