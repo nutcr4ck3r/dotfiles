@@ -207,10 +207,10 @@ pa() {
   # Path selection
   case "$cmd" in
     cd|ls)
-      selected_path=$(fdfind . ${args:-.} -type d 2> /dev/null | fzf --preview 'ls {}')
+      selected_path=$(fdfind . ${args:-.} -t d 2> /dev/null | fzf --preview 'ls {}')
       ;;
     vi|vim|less|cat|more)
-      selected_path=$(fdfind . ${args:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null')
+      selected_path=$(fdfind . ${args:-.} -t f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null')
       ;;
     find)
       selected_path=$(fdfind . ${args:-.} 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null || ls {}')
@@ -226,10 +226,10 @@ pa() {
       return
       ;;
     cp|mv)
-      [[ -n "$args" ]] && selected_path=$(fdfind . $args -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null') || { echo -n "[?] Enter source path: "; read input_path; selected_path=$(fdfind . ${input_path:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null'); }
+      [[ -n "$args" ]] && selected_path=$(fdfind . $args -t f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null') || { echo -n "[?] Enter source path: "; read input_path; selected_path=$(fdfind . ${input_path:-.} -t f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null'); }
       [ -z "$selected_path" ] && { echo "[!] No selection made."; return; }
       echo -n "[?] Enter destination path: "; read dst_input_path
-      dst_path=$(fdfind . ${dst_input_path:-.} -type d 2> /dev/null | fzf --preview 'ls {}')
+      dst_path=$(fdfind . ${dst_input_path:-.} -t d 2> /dev/null | fzf --preview 'ls {}')
       [ -z "$dst_path" ] && { echo "[!] No destination selected."; return; }
       if [ -e "$dst_path/$(basename "$selected_path")" ]; then
         echo -n "[?] Overwrite existing file? yes/no: "; read overwrite_confirm
