@@ -31,11 +31,11 @@ set -o vi
 bindkey "jj" vi-cmd-mode
 
 # set Alias & Keybinding
-alias ls='ls $lsoption'
-alias l='ls $lsoption'
-alias ll='ls -lhF $lsoption'
-alias la='ls -aF $lsoption'
-alias lla='ls -lahF $lsoption'
+alias ls='eza $lsoption --icons'
+alias l='ls $lsoption --icons'
+alias ll='ls -lhF $lsoption --icons'
+alias la='ls -aF $lsoption --icons'
+alias lla='ls -lahF $lsoption --icons'
 alias tm='tmux'
 alias cd='cdls'
 alias w3m='w3m google.com'
@@ -62,6 +62,7 @@ alias rgobuster='gobuster -u http://$IP -w /usr/share/wordlists/dirbuster/direct
 alias rferoxbuster='feroxbuster -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt'
 alias rsmbclient='smbclient -N -L $IP'
 alias rftp="ftp -A ftp://anonymous'':@$IP"
+alias pythonsv="ls && python3 -m http.server 80"
 alias Ip="echo -e 'IP:\n$IP'"
 if [ -f "$HOME/.ip" ]; then
     source "$HOME/.ip"
@@ -107,20 +108,30 @@ function virtualenv_info {
   [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
 }
 function show_command_end_time() {
+  if ip a | grep -q 'scope global tun'; then
+    TUNIP="@tun0:$(ip a | grep 'scope global tun' | awk '{print $2}' | cut -d'/' -f1)"
+  else
+    TUNIP=""
+  fi
   PREV_COMMAND_END_TIME=`date "+%Y-%m-%d %H:%M:%S %Z"`
   PROMPT="
 %F{237}IN: ${PREV_COMMAND_END_TIME}%f
-%F{cyan}[%n]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}%F{yellow}$(virtualenv_info)
+%F{cyan}[%n%f%F{green}$TUNIP%f%F{cyan}]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}%F{yellow}$(virtualenv_info)
 %F{red}>%F{yellow}>%F{green}>%f%b '
 }
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd show_command_end_time
 
 show_command_begin_time() {
+  if ip a | grep -q 'scope global tun'; then
+    TUNIP="@tun0:$(ip a | grep 'scope global tun' | awk '{print $2}' | cut -d'/' -f1)"
+  else
+    TUNIP=""
+  fi
   NEXT_COMMAND_BGN_TIME=`date "+%Y-%m-%d %H:%M:%S %Z"`
   PROMPT="
 %F{237}IN: ${PREV_COMMAND_END_TIME} -> OUT: ${NEXT_COMMAND_BGN_TIME}%f
-%F{cyan}[%n]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}%F{yellow}$(virtualenv_info)
+%F{cyan}[%n%f%F{green}$TUNIP%f%F{cyan}]%f%F{blue}[%~]%f%F{green}"'${vcs_info_msg_0_}%F{yellow}$(virtualenv_info)
 %F{red}>%F{yellow}>%F{green}>%f%b '
   zle .accept-line
   zle .reset-prompt
@@ -195,29 +206,29 @@ pa() {
   # Path selection
   case "$cmd" in
     cd|ls)
-      selected_path=$(find ${args:-.} -type d 2> /dev/null | fzf --preview 'ls {}')
+      selected_path=$(fdfind . ${args:-.} -type d 2> /dev/null | fzf --preview 'ls {}')
       ;;
     vi|vim|less|cat|more)
-      selected_path=$(find ${args:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null')
+      selected_path=$(fdfind . ${args:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null')
       ;;
     find)
-      selected_path=$(find ${args:-.} 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null || ls {}')
+      selected_path=$(fdfind . ${args:-.} 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null || ls {}')
       [ -z "$selected_path" ] && { echo "[!] No selection made."; return; }
       [ -d "$selected_path" ] && cd "$selected_path" || cd "$(dirname "$selected_path")"
       return
       ;;
     rm)
-      selected_path=$(find ${args:-.} 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null || ls {}')
+      selected_path=$(fdfind . ${args:-.} 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null || ls {}')
       [ -z "$selected_path" ] && { echo "[!] No selection made."; return; }
       echo -n "[?] Delete '$selected_path'? yes/no: "; read confirm
       [[ "$confirm" =~ ^(yes|y|Y)$ ]] && rm -r "$selected_path" || echo "[!] Deletion cancelled."
       return
       ;;
     cp|mv)
-      [[ -n "$args" ]] && selected_path=$(find $args -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null') || { echo -n "[?] Enter source path: "; read input_path; selected_path=$(find ${input_path:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null'); }
+      [[ -n "$args" ]] && selected_path=$(fdfind . $args -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null') || { echo -n "[?] Enter source path: "; read input_path; selected_path=$(fdfind . ${input_path:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} 2> /dev/null || head -100 {} 2> /dev/null'); }
       [ -z "$selected_path" ] && { echo "[!] No selection made."; return; }
       echo -n "[?] Enter destination path: "; read dst_input_path
-      dst_path=$(find ${dst_input_path:-.} -type d 2> /dev/null | fzf --preview 'ls {}')
+      dst_path=$(fdfind . ${dst_input_path:-.} -type d 2> /dev/null | fzf --preview 'ls {}')
       [ -z "$dst_path" ] && { echo "[!] No destination selected."; return; }
       if [ -e "$dst_path/$(basename "$selected_path")" ]; then
         echo -n "[?] Overwrite existing file? yes/no: "; read overwrite_confirm
