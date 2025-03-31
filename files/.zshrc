@@ -195,6 +195,17 @@ fzf-cdr() {
 }
 zle -N fzf-cdr
 
+# Function to run CD automaticaly when exit ranger
+alias rangers='ranger_cd'
+ranger_cd() {
+    temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
+    ranger --choosedir="$temp_file" -- "${@:-$PWD}"
+    if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
+        cd -- "$chosen_dir"
+    fi
+    rm -f -- "$temp_file"
+}
+
 # 'pa' function: command wrapper for interactive file/directory selection using 'find' and 'fzf'.
 # Supports commands: cd, ls, vi, vim, less, cat, more, find, rm, cp, mv.
 export FZF_DEFAULT_OPTS='--reverse --border --preview-window=down --bind "ctrl-t:change-preview-window:right|hidden|down"'

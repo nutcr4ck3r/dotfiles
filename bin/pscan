@@ -28,14 +28,33 @@ def fetch_pocs(cve_id, sort, limit):
     try:
         response = requests.get(API_ENDPOINT, params=params)
         response.raise_for_status()
-        return response.json().get('pocs', [])
+        json_data = response.json()
+        if json_data is None:
+            print(f"[Error] API returned empty response", file=sys.stderr)
+            return []
+        return json_data.get('pocs', [])
     except requests.RequestException as e:
         print(f"[Error] API request failed: {e}", file=sys.stderr)
         sys.exit(1)
+    except ValueError as e:
+        print(f"[Error] Failed to parse JSON response: {e}", file=sys.stderr)
+        return []
 
 
-def display_results(pocs):
+def display_results(pocs, cve_id):
+    if not pocs:
+        print(f"{Fore.YELLOW}No results found.{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}No information found for {cve_id}.{Style.RESET_ALL}")
+        return
+
     for i, poc in enumerate(pocs, 1):
+        if poc is None:
+            continue
+
+        if not isinstance(poc, dict):
+            print(f"{Fore.YELLOW}- Result {i:02}: Invalid data format{Style.RESET_ALL}")
+            continue
+
         print(f"{Fore.YELLOW}- Result {i:02}{Style.RESET_ALL}")
         print(f"{Fore.CYAN}  - cve_id:{Style.RESET_ALL} {poc.get('cve_id', 'N/A')}")
         print(f"{Fore.CYAN}  - url:{Style.RESET_ALL} {poc.get('html_url', 'N/A')}")
@@ -43,11 +62,14 @@ def display_results(pocs):
 
         # nvd_description
         vuln_desc = poc.get('vuln_description', 'N/A')
+        if vuln_desc is None:
+            vuln_desc = 'N/A'
         vuln_trimmed = vuln_desc[:80] + ('...' if len(vuln_desc) > 80 else '')
         print(f"{Fore.CYAN}  - nvd_description:{Style.RESET_ALL} {vuln_trimmed}")
 
         # stars の色分け
-        stars = int(poc.get('stargazers_count', 0))
+        stargazers_count = poc.get('stargazers_count')
+        stars = int(stargazers_count) if stargazers_count is not None else 0
         if stars >= 20:
             stars_color = Fore.RED
         elif stars >= 5:
@@ -60,9 +82,10 @@ def display_results(pocs):
         updated = poc.get('updated_at', 'N/A')
         created = poc.get('created_at', 'N/A')
         try:
-            updated_dt = datetime.strptime(updated, '%Y-%m-%d %H:%M:%S')
-            if (datetime.now() - updated_dt).days <= 365:
-                updated = f"{Fore.YELLOW}{updated}{Style.RESET_ALL}"
+            if updated and updated != 'N/A':
+                updated_dt = datetime.strptime(updated, '%Y-%m-%d %H:%M:%S')
+                if (datetime.now() - updated_dt).days <= 365:
+                    updated = f"{Fore.YELLOW}{updated}{Style.RESET_ALL}"
         except Exception:
             pass
 
@@ -76,9 +99,13 @@ def main():
     parser.add_argument("-l", "--limit", type=int, help="Limit the number of results")
     args = parser.parse_args()
 
-    cve_id = normalize_cve(args.cve)
+    # 4桁で区切る処理を追加
+    if len(args.cve) > 4:
+        cve_id = normalize_cve(args.cve[:4] + '-' + args.cve[4:])
+    else:
+        cve_id = normalize_cve(args.cve)
     pocs = fetch_pocs(cve_id, args.sort, args.limit)
-    display_results(pocs)
+    display_results(pocs, cve_id)
 
 
 if __name__ == "__main__":
