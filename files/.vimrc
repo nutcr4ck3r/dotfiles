@@ -266,8 +266,6 @@ let g:bullets_set_mappings = 0
 let g:bullets_custom_mappings = [
   \ ['imap', '<CR>', '<Plug>(bullets-newline)'],
   \ ['nmap', 'o', '<Plug>(bullets-newline)'],
-  \ ['imap', '<C-l>', '<Plug>(bullets-demote)'],
-  \ ['imap', '<C-h>', '<Plug>(bullets-promote)'],
   \ ]
 
 " voldikss/vim-floaterm -------------------------------------------------------
